@@ -1,0 +1,164 @@
+{% extends 'library/base.html' %}
+
+{% block title %}{{ action }} Book - Library Management System{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">{{ action }} Book</h1>
+    <a href="{% url 'book_list' %}" class="btn btn-secondary">← Back to List</a>
+</div>
+
+<div class="form-container">
+    <form method="post" class="book-form">
+        {% csrf_token %}
+
+        <div class="form-section">
+            <h3 class="form-section-title">📚 Basic Information</h3>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="{{ form.title.id_for_label }}">{{ form.title.label }} <span
+                            class="required">*</span></label>
+                    {{ form.title }}
+                    {% if form.title.errors %}
+                    <div class="error-message">{{ form.title.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.author.id_for_label }}">{{ form.author.label }} <span
+                            class="required">*</span></label>
+                    {{ form.author }}
+                    {% if form.author.errors %}
+                    <div class="error-message">{{ form.author.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.published_year.id_for_label }}">{{ form.published_year.label }} <span
+                            class="required">*</span></label>
+                    {{ form.published_year }}
+                    {% if form.published_year.errors %}
+                    <div class="error-message">{{ form.published_year.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.category.id_for_label }}">{{ form.category.label }} <span
+                            class="required">*</span></label>
+                    {{ form.category }}
+                    {% if form.category.errors %}
+                    <div class="error-message">{{ form.category.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.language.id_for_label }}">{{ form.language.label }}</label>
+                    {{ form.language }}
+                    {% if form.language.errors %}
+                    <div class="error-message">{{ form.language.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.isbn.id_for_label }}">{{ form.isbn.label }}</label>
+                    {{ form.isbn }}
+                    {% if form.isbn.errors %}
+                    <div class="error-message">{{ form.isbn.errors }}</div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3 class="form-section-title">📖 Additional Details</h3>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="{{ form.publisher.id_for_label }}">{{ form.publisher.label }}</label>
+                    {{ form.publisher }}
+                    {% if form.publisher.errors %}
+                    <div class="error-message">{{ form.publisher.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.pages.id_for_label }}">{{ form.pages.label }}</label>
+                    {{ form.pages }}
+                    {% if form.pages.errors %}
+                    <div class="error-message">{{ form.pages.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.edition.id_for_label }}">{{ form.edition.label }}</label>
+                    {{ form.edition }}
+                    {% if form.edition.errors %}
+                    <div class="error-message">{{ form.edition.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.rating.id_for_label }}">{{ form.rating.label }}</label>
+                    {{ form.rating }}
+                    {% if form.rating.errors %}
+                    <div class="error-message">{{ form.rating.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="{{ form.description.id_for_label }}">{{ form.description.label }}</label>
+                    {{ form.description }}
+                    {% if form.description.errors %}
+                    <div class="error-message">{{ form.description.errors }}</div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3 class="form-section-title">📍 Library Management</h3>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="{{ form.status.id_for_label }}">{{ form.status.label }}</label>
+                    {{ form.status }}
+                    {% if form.status.errors %}
+                    <div class="error-message">{{ form.status.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.total_copies.id_for_label }}">{{ form.total_copies.label }}</label>
+                    {{ form.total_copies }}
+                    {% if form.total_copies.errors %}
+                    <div class="error-message">{{ form.total_copies.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.copies_available.id_for_label }}">{{ form.copies_available.label }}</label>
+                    {{ form.copies_available }}
+                    {% if form.copies_available.errors %}
+                    <div class="error-message">{{ form.copies_available.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.shelf_location.id_for_label }}">{{ form.shelf_location.label }}</label>
+                    {{ form.shelf_location }}
+                    {% if form.shelf_location.errors %}
+                    <div class="error-message">{{ form.shelf_location.errors }}</div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        {% if form.non_field_errors %}
+        <div class="error-message">{{ form.non_field_errors }}</div>
+        {% endif %}
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary btn-lg">{{ action }} Book</button>
+            <a href="{% url 'book_list' %}" class="btn btn-secondary btn-lg">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

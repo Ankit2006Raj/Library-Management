@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: #1a237e;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .content {
+            padding: 20px;
+            background: #f5f5f5;
+        }
+
+        .feature {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #1a237e;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 Welcome to Library Management System!</h1>
+        </div>
+        <div class="content">
+            <p>Hello {{ username }},</p>
+            <p>Welcome to our library! We're excited to have you as a member.</p>
+
+            <h3>What you can do:</h3>
+
+            <div class="feature">
+                <h4>📖 Browse & Borrow Books</h4>
+                <p>Explore our extensive collection and borrow books easily.</p>
+            </div>
+
+            <div class="feature">
+                <h4>⭐ Review & Rate</h4>
+                <p>Share your thoughts and help others discover great books.</p>
+            </div>
+
+            <div class="feature">
+                <h4>🔖 Create Wishlists</h4>
+                <p>Save books you want to read for later.</p>
+            </div>
+
+            <div class="feature">
+                <h4>📅 Reserve Books</h4>
+                <p>Reserve books that are currently unavailable.</p>
+            </div>
+
+            <p style="text-align: center; margin: 30px 0;">
+                <a href="{{ request.scheme }}://{{ request.get_host }}/" class="button">Explore Books</a>
+                <a href="{{ request.scheme }}://{{ request.get_host }}/profile/" class="button">My Profile</a>
+            </p>
+
+            <p>Happy reading!</p>
+        </div>
+        <div class="footer">
+            <p>Library Management System</p>
+            <p>Need help? Contact us at library@example.com</p>
+        </div>
+    </div>
+</body>
+
+</html>

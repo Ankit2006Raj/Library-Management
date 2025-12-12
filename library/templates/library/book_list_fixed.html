@@ -1,0 +1,147 @@
+{% extends 'library/base.html' %}
+
+{% block title %}All Books - Library Management System{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">All Books</h1>
+    <a href="{% url 'book_add' %}" class="btn btn-primary">+ Add New Book</a>
+</div>
+
+<div class="filter-section">
+    <form method="get" class="filter-form">
+        <div class="filter-grid">
+            <div class="filter-group">
+                <input type="text" name="search" class="form-input" placeholder="Search by title, author, ISBN..."
+                    value="{{ search_query }}">
+            </div>
+
+            <div class="filter-group">
+                <select name="category" class="form-input">
+                    <option value="">All Categories</option>
+                    {% for value, label in categories %}
+                    <option value="{{ value }}" {% if category_filter|stringformat:"s"==value|stringformat:"s"
+                        %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <select name="status" class="form-input">
+                    <option value="">All Status</option>
+                    {% for value, label in statuses %}
+                    <option value="{{ value }}" {% if status_filter|stringformat:"s"==value|stringformat:"s"
+                        %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <select name="language" class="form-input">
+                    <option value="">All Languages</option>
+                    {% for value, label in languages %}
+                    <option value="{{ value }}" {% if language_filter|stringformat:"s"==value|stringformat:"s"
+                        %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <select name="sort" class="form-input">
+                    <option value="-created_at" {% if sort_by|stringformat:"s"=="-created_at" %}selected{% endif %}>
+                        Newest First</option>
+                    <option value="created_at" {% if sort_by|stringformat:"s"=="created_at" %}selected{% endif %}>Oldest
+                        First</option>
+                    <option value="title" {% if sort_by|stringformat:"s"=="title" %}selected{% endif %}>Title (A-Z)
+                    </option>
+                    <option value="-title" {% if sort_by|stringformat:"s"=="-title" %}selected{% endif %}>Title (Z-A)
+                    </option>
+                    <option value="author" {% if sort_by|stringformat:"s"=="author" %}selected{% endif %}>Author (A-Z)
+                    </option>
+                    <option value="-rating" {% if sort_by|stringformat:"s"=="-rating" %}selected{% endif %}>Highest
+                        Rated</option>
+                </select>
+            </div>
+
+            <div class="filter-actions">
+                <button type="submit" class="btn btn-primary">Apply Filters</button>
+                <a href="{% url 'book_list' %}" class="btn btn-secondary">Clear</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="book-count">
+    <p>Showing <strong>{{ page_obj.start_index }}-{{ page_obj.end_index }}</strong> of <strong>{{ total_books
+            }}</strong> books</p>
+</div>
+
+{% if page_obj %}
+<div class="table-container">
+    <table class="book-table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Year</th>
+                <th>Category</th>
+                <th>Language</th>
+                <th>Status</th>
+                <th>Rating</th>
+                <th>Copies</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in page_obj %}
+            <tr>
+                <td>{{ forloop.counter|add:page_obj.start_index|add:"-1" }}</td>
+                <td class="book-title-cell">
+                    <a href="{% url 'book_detail' book.pk %}" class="book-link">{{ book.title }}</a>
+                </td>
+                <td>{{ book.author }}</td>
+                <td>{{ book.published_year }}</td>
+                <td><span class="badge badge-category">{{ book.category }}</span></td>
+                <td>{{ book.language }}</td>
+                <td><span class="badge badge-{{ book.status|lower }}">{{ book.status }}</span></td>
+                <td><span class="rating-display">⭐ {{ book.rating }}</span></td>
+                <td>{{ book.copies_available }}/{{ book.total_copies }}</td>
+                <td class="action-buttons">
+                    <a href="{% url 'book_detail' book.pk %}" class="btn btn-info btn-sm" title="View Details">👁️</a>
+                    <a href="{% url 'book_edit' book.pk %}" class="btn btn-secondary btn-sm" title="Edit">✏️</a>
+                    <a href="{% url 'book_delete' book.pk %}" class="btn btn-danger btn-sm" title="Delete">🗑️</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% if page_obj.has_other_pages %}
+<div class="pagination">
+    {% if page_obj.has_previous %}
+    <a href="?page=1{% if search_query %}&search={{ search_query }}{% endif %}{% if category_filter %}&category={{ category_filter }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}{% if language_filter %}&language={{ language_filter }}{% endif %}{% if sort_by %}&sort={{ sort_by }}{% endif %}"
+        class="btn btn-secondary btn-sm">First</a>
+    <a href="?page={{ page_obj.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if category_filter %}&category={{ category_filter }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}{% if language_filter %}&language={{ language_filter }}{% endif %}{% if sort_by %}&sort={{ sort_by }}{% endif %}"
+        class="btn btn-secondary btn-sm">Previous</a>
+    {% endif %}
+
+    <span class="page-info">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+    {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if category_filter %}&category={{ category_filter }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}{% if language_filter %}&language={{ language_filter }}{% endif %}{% if sort_by %}&sort={{ sort_by }}{% endif %}"
+        class="btn btn-secondary btn-sm">Next</a>
+    <a href="?page={{ page_obj.paginator.num_pages }}{% if search_query %}&search={{ search_query }}{% endif %}{% if category_filter %}&category={{ category_filter }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}{% if language_filter %}&language={{ language_filter }}{% endif %}{% if sort_by %}&sort={{ sort_by }}{% endif %}"
+        class="btn btn-secondary btn-sm">Last</a>
+    {% endif %}
+</div>
+{% endif %}
+{% else %}
+<div class="empty-state">
+    <p>No books found matching your criteria.</p>
+    <a href="{% url 'book_list' %}" class="btn btn-secondary">Clear Filters</a>
+    <a href="{% url 'book_add' %}" class="btn btn-primary">Add Your First Book</a>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,146 @@
+{% extends 'library/base.html' %}
+
+{% block title %}{{ book.title }} - Library Management System{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">Book Details</h1>
+    <div class="header-actions">
+        <a href="{% url 'book_list' %}" class="btn btn-secondary">← Back to List</a>
+        <a href="{% url 'book_edit' book.pk %}" class="btn btn-primary">Edit Book</a>
+    </div>
+</div>
+
+<div class="book-detail-container">
+    <div class="book-detail-card">
+        <div class="book-detail-header">
+            <div class="book-detail-title-section">
+                <h2 class="book-detail-title">{{ book.title }}</h2>
+                <p class="book-detail-author">by {{ book.author }}</p>
+                <div class="book-detail-rating">
+                    <span class="rating-stars">
+                        {% if book.rating >= 1 %}⭐{% else %}☆{% endif %}
+                        {% if book.rating >= 2 %}⭐{% else %}☆{% endif %}
+                        {% if book.rating >= 3 %}⭐{% else %}☆{% endif %}
+                        {% if book.rating >= 4 %}⭐{% else %}☆{% endif %}
+                        {% if book.rating >= 5 %}⭐{% else %}☆{% endif %}
+                    </span>
+                    <span class="rating-value">{{ book.rating }}/5.0</span>
+                </div>
+            </div>
+            <div class="book-detail-status-section">
+                <span class="badge badge-{{ book.status|lower }} badge-lg">{{ book.status }}</span>
+                {% if book.is_available %}
+                <span class="availability-badge available">✓ Available</span>
+                {% else %}
+                <span class="availability-badge unavailable">✗ Not Available</span>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="book-detail-body">
+            <div class="detail-grid">
+                <div class="detail-section">
+                    <h3 class="detail-section-title">📚 Basic Information</h3>
+                    <div class="detail-items">
+                        <div class="detail-item">
+                            <span class="detail-label">Category:</span>
+                            <span class="detail-value"><span class="badge badge-category">{{ book.category
+                                    }}</span></span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Published Year:</span>
+                            <span class="detail-value">{{ book.published_year }}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Language:</span>
+                            <span class="detail-value">{{ book.language }}</span>
+                        </div>
+                        {% if book.isbn %}
+                        <div class="detail-item">
+                            <span class="detail-label">ISBN:</span>
+                            <span class="detail-value">{{ book.isbn }}</span>
+                        </div>
+                        {% endif %}
+                        {% if book.publisher %}
+                        <div class="detail-item">
+                            <span class="detail-label">Publisher:</span>
+                            <span class="detail-value">{{ book.publisher }}</span>
+                        </div>
+                        {% endif %}
+                        {% if book.pages %}
+                        <div class="detail-item">
+                            <span class="detail-label">Pages:</span>
+                            <span class="detail-value">{{ book.pages }}</span>
+                        </div>
+                        {% endif %}
+                        {% if book.edition %}
+                        <div class="detail-item">
+                            <span class="detail-label">Edition:</span>
+                            <span class="detail-value">{{ book.edition }}</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3 class="detail-section-title">📍 Library Information</h3>
+                    <div class="detail-items">
+                        <div class="detail-item">
+                            <span class="detail-label">Status:</span>
+                            <span class="detail-value"><span class="badge badge-{{ book.status|lower }}">{{ book.status
+                                    }}</span></span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Copies Available:</span>
+                            <span class="detail-value">{{ book.copies_available }} of {{ book.total_copies }}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Availability:</span>
+                            <span class="detail-value">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: {{ book.availability_percentage }}%"></div>
+                                </div>
+                                <span class="progress-text">{{ book.availability_percentage|floatformat:0 }}%</span>
+                            </span>
+                        </div>
+                        {% if book.shelf_location %}
+                        <div class="detail-item">
+                            <span class="detail-label">Shelf Location:</span>
+                            <span class="detail-value">{{ book.shelf_location }}</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            {% if book.description %}
+            <div class="detail-section full-width">
+                <h3 class="detail-section-title">📖 Description</h3>
+                <p class="book-description">{{ book.description }}</p>
+            </div>
+            {% endif %}
+
+            <div class="detail-section full-width">
+                <h3 class="detail-section-title">🕒 Timestamps</h3>
+                <div class="detail-items">
+                    <div class="detail-item">
+                        <span class="detail-label">Added:</span>
+                        <span class="detail-value">{{ book.created_at|date:"F d, Y - g:i A" }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Last Updated:</span>
+                        <span class="detail-value">{{ book.updated_at|date:"F d, Y - g:i A" }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="book-detail-footer">
+            <a href="{% url 'book_edit' book.pk %}" class="btn btn-primary">Edit Book</a>
+            <a href="{% url 'book_delete' book.pk %}" class="btn btn-danger">Delete Book</a>
+            <a href="{% url 'book_list' %}" class="btn btn-secondary">Back to List</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

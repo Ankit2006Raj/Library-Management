@@ -1,0 +1,115 @@
+{% extends 'library/base.html' %}
+
+{% block title %}Statistics - Library Management System{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">📊 Library Statistics & Analytics</h1>
+    <a href="{% url 'home' %}" class="btn btn-secondary">← Back to Home</a>
+</div>
+
+<div class="stats-overview">
+    <div class="stat-card stat-card-primary">
+        <div class="stat-icon">📚</div>
+        <div class="stat-number">{{ total_books }}</div>
+        <div class="stat-label">Total Books</div>
+    </div>
+
+    <div class="stat-card stat-card-success">
+        <div class="stat-icon">✅</div>
+        <div class="stat-number">{{ available_books }}</div>
+        <div class="stat-label">Available</div>
+    </div>
+
+    <div class="stat-card stat-card-warning">
+        <div class="stat-icon">📖</div>
+        <div class="stat-number">{{ borrowed_books }}</div>
+        <div class="stat-label">Borrowed</div>
+    </div>
+
+    <div class="stat-card stat-card-info">
+        <div class="stat-icon">🔖</div>
+        <div class="stat-number">{{ reserved_books }}</div>
+        <div class="stat-label">Reserved</div>
+    </div>
+
+    <div class="stat-card stat-card-rating">
+        <div class="stat-icon">⭐</div>
+        <div class="stat-number">{{ avg_rating }}</div>
+        <div class="stat-label">Avg Rating</div>
+    </div>
+</div>
+
+<div class="analytics-grid">
+    <div class="analytics-card">
+        <h3 class="analytics-title">📂 Books by Category</h3>
+        <div class="chart-container">
+            {% for item in category_distribution %}
+            <div class="chart-item">
+                <div class="chart-label">{{ item.category }}</div>
+                <div class="chart-bar-container">
+                    <div class="chart-bar" style="width: {% widthratio item.count total_books 100 %}%">
+                        <span class="chart-value">{{ item.count }}</span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="analytics-card">
+        <h3 class="analytics-title">🌍 Books by Language</h3>
+        <div class="chart-container">
+            {% for item in language_distribution %}
+            <div class="chart-item">
+                <div class="chart-label">{{ item.language }}</div>
+                <div class="chart-bar-container">
+                    <div class="chart-bar chart-bar-secondary"
+                        style="width: {% widthratio item.count total_books 100 %}%">
+                        <span class="chart-value">{{ item.count }}</span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="analytics-card full-width">
+        <h3 class="analytics-title">📅 Recent Publications (Last 10 Years)</h3>
+        <div class="chart-container">
+            {% for item in year_distribution %}
+            <div class="chart-item">
+                <div class="chart-label">{{ item.published_year }}</div>
+                <div class="chart-bar-container">
+                    <div class="chart-bar chart-bar-accent" style="width: {% widthratio item.count total_books 100 %}%">
+                        <span class="chart-value">{{ item.count }}</span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<div class="statistics-summary">
+    <h3>📈 Summary</h3>
+    <div class="summary-grid">
+        <div class="summary-item">
+            <span class="summary-label">Total Collection:</span>
+            <span class="summary-value">{{ total_books }} books</span>
+        </div>
+        <div class="summary-item">
+            <span class="summary-label">Availability Rate:</span>
+            <span class="summary-value">{% widthratio available_books total_books 100 %}%</span>
+        </div>
+        <div class="summary-item">
+            <span class="summary-label">Utilization Rate:</span>
+            <span class="summary-value">{% widthratio borrowed_books total_books 100 %}%</span>
+        </div>
+        <div class="summary-item">
+            <span class="summary-label">Average Rating:</span>
+            <span class="summary-value">{{ avg_rating }}/5.0 ⭐</span>
+        </div>
+    </div>
+</div>
+{% endblock %}

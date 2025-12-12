@@ -1,0 +1,120 @@
+{% extends 'library/base.html' %}
+
+{% block title %}Home - Library Management System{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <h1 class="hero-title">Welcome to Library Management System</h1>
+    <p class="hero-subtitle">Manage your book collection with ease and efficiency</p>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-icon">📚</div>
+        <div class="stat-number">{{ total_books }}</div>
+        <div class="stat-label">Total Books</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">✅</div>
+        <div class="stat-number">{{ available_books }}</div>
+        <div class="stat-label">Available</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">📖</div>
+        <div class="stat-number">{{ borrowed_books }}</div>
+        <div class="stat-label">Borrowed</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">📂</div>
+        <div class="stat-number">{{ total_categories }}</div>
+        <div class="stat-label">Categories</div>
+    </div>
+</div>
+
+<div class="section">
+    <h2 class="section-title">📊 Top Categories</h2>
+    <div class="category-stats">
+        {% for item in category_stats %}
+        <div class="category-stat-item">
+            <span class="category-name">{{ item.category }}</span>
+            <span class="category-count">{{ item.count }} books</span>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="section">
+    <h2 class="section-title">⭐ Top Rated Books</h2>
+    {% if top_rated_books %}
+    <div class="book-grid">
+        {% for book in top_rated_books %}
+        <div class="book-card">
+            <div class="book-category">{{ book.category }}</div>
+            <h3 class="book-title">{{ book.title }}</h3>
+            <p class="book-author">by {{ book.author }}</p>
+            <p class="book-year">Published: {{ book.published_year }}</p>
+            <div class="book-rating">
+                <span class="rating-stars">⭐ {{ book.rating }}</span>
+            </div>
+            <div class="book-actions">
+                <a href="{% url 'book_detail' book.pk %}" class="btn btn-info btn-sm">View</a>
+                <a href="{% url 'book_edit' book.pk %}" class="btn btn-secondary btn-sm">Edit</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="empty-state">No rated books available.</p>
+    {% endif %}
+</div>
+
+<div class="section">
+    <h2 class="section-title">🆕 Recently Added Books</h2>
+    {% if recent_books %}
+    <div class="book-grid">
+        {% for book in recent_books %}
+        <div class="book-card">
+            <div class="book-category">{{ book.category }}</div>
+            <h3 class="book-title">{{ book.title }}</h3>
+            <p class="book-author">by {{ book.author }}</p>
+            <p class="book-year">Published: {{ book.published_year }}</p>
+            <div class="book-status">
+                <span class="badge badge-{{ book.status|lower }}">{{ book.status }}</span>
+            </div>
+            <div class="book-actions">
+                <a href="{% url 'book_detail' book.pk %}" class="btn btn-info btn-sm">View</a>
+                <a href="{% url 'book_edit' book.pk %}" class="btn btn-secondary btn-sm">Edit</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="empty-state">No books available. <a href="{% url 'book_add' %}">Add your first book</a></p>
+    {% endif %}
+</div>
+
+<div class="section">
+    <h2 class="section-title">🌍 Language Distribution</h2>
+    <div class="language-stats">
+        {% for item in language_stats %}
+        <div class="language-stat-item">
+            <span class="language-name">{{ item.language }}</span>
+            <div class="language-bar-container">
+                <div class="language-bar" style="width: {% widthratio item.count total_books 100 %}%"></div>
+            </div>
+            <span class="language-count">{{ item.count }}</span>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="cta-section">
+    <h2>Get Started</h2>
+    <p>Start managing your library collection today</p>
+    <div class="cta-buttons">
+        <a href="{% url 'book_add' %}" class="btn btn-primary btn-lg">Add New Book</a>
+        <a href="{% url 'book_list' %}" class="btn btn-secondary btn-lg">View All Books</a>
+        <a href="{% url 'statistics' %}" class="btn btn-info btn-lg">View Statistics</a>
+    </div>
+</div>
+{% endblock %}

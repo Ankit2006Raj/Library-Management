@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: #d32f2f;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .content {
+            padding: 20px;
+            background: #f5f5f5;
+        }
+
+        .book-info {
+            background: white;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #d32f2f;
+        }
+
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #d32f2f;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⚠️ Overdue Book Notice</h1>
+        </div>
+        <div class="content">
+            <p>Hello {{ user.username }},</p>
+            <p><strong>URGENT:</strong> The following book is overdue:</p>
+
+            <div class="book-info">
+                <h3>{{ book.title }}</h3>
+                <p><strong>Author:</strong> {{ book.author }}</p>
+                <p><strong>Due Date:</strong> {{ due_date }}</p>
+                <p><strong>Days Overdue:</strong> {{ borrow_record.is_overdue }}</p>
+            </div>
+
+            <div class="warning">
+                <h4>⚠️ Fine Information</h4>
+                <p><strong>Current Fine:</strong> ${{ fine }}</p>
+                <p>Fine continues to accumulate at $1.00 per day.</p>
+            </div>
+
+            <p>Please return the book immediately to avoid additional charges.</p>
+
+            <p style="text-align: center; margin: 20px 0;">
+                <a href="{{ request.scheme }}://{{ request.get_host }}/my-books/" class="button">Return Book Now</a>
+            </p>
+        </div>
+        <div class="footer">
+            <p>Library Management System</p>
+            <p>This is an automated message. Please do not reply.</p>
+        </div>
+    </div>
+</body>
+
+</html>
