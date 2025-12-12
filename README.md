@@ -1,6 +1,9 @@
 # 📚 Library Book Management System
 
 A comprehensive, high-class Django-based Library Management System featuring full CRUD operations, advanced search & filtering, statistics dashboard, and a beautiful responsive UI.
+<img width="1353" height="659" alt="image" src="https://github.com/user-attachments/assets/5256acdb-913e-43ff-8aa8-823e7631eda7" />
+<img width="841" height="637" alt="image" src="https://github.com/user-attachments/assets/3d256a78-826d-45b2-9f93-1cd10fb2006c" />
+
 
 ## ✨ Features
 
@@ -71,9 +74,6 @@ python manage.py runserver
 - Main Site: http://127.0.0.1:8000/
 - Admin Panel: http://127.0.0.1:8000/admin/
 
-### 🔑 Admin Credentials
-- **Username:** admin
-- **Password:** admin123
 
 ## 📁 Project Structure
 
