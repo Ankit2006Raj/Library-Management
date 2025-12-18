@@ -373,9 +373,12 @@ This is an educational project. Feel free to:
 
 This project is created for educational purposes.
 
-## 👨‍💻 Author
+👨‍💻 Author
+Ankit Raj
 
-Created as a demonstration of Django MVT architecture and modern web development practices.
+GitHub: [@Ankit2006Raj](https://github.com/Ankit2006Raj)
+LinkedIn: [Ankit Raj](https://www.linkedin.com/in/ankit-raj-226a36309)
+Email: ankit9905163014@gmail.com
 
 ## 📞 Support
 
